@@ -19,6 +19,10 @@ namespace Demo.User
         {
             InitializeComponent();
         }
+        protected override void OnResize(EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
         public void EncodeUTF8(string str)
         {
             byte[] bytes = Encoding.Default.GetBytes(str);
@@ -32,7 +36,7 @@ namespace Demo.User
                 cnn.Open();
                 string tmp = cnn.ConnectionString;
                 //Query để load thông tin cá nhân user
-                string loadDataQuery = string.Format("SELECT u.MaNV, u.TenNV, u.Email, u.SDT, u.ChucVu, k.TenKhoa, u.PubKey, u.MaKhoa FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id_user);
+                string loadDataQuery = string.Format("SELECT u.MaNV, u.TenNV, u.Email, u.SDT, u.ChucVu, k.TenKhoa, u.MaKhoa FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id_user);
                 SqlDataAdapter sda = new SqlDataAdapter(loadDataQuery, cnn);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
@@ -45,18 +49,25 @@ namespace Demo.User
                     khoa_cb.Items.Add(sdr[0]);
                 }
                 cnn.Close();
-                cv_cb.DataSource = Enum.GetValues(typeof(CVenum));
+                cv_cb.DisplayMember = "Description";
+                cv_cb.ValueMember = "Value";
+                cv_cb.DataSource = Enum.GetValues(typeof(CVenum))
+                    .Cast<Enum>()
+                    .Select(value => new
+                    {
+                        (Attribute.GetCustomAttribute(value.GetType().GetField(value.ToString()), typeof(DescriptionAttribute)) as DescriptionAttribute).Description,
+                        value
+                    })
+                    .OrderBy(item => item.value)
+                    .ToList();
                 magv_tb.Text = dt.Rows[0][0].ToString();
                 ten_tb.Text = dt.Rows[0][1].ToString();
                 email_tb.Text = dt.Rows[0][2].ToString();
                 sdt_tb.Text = dt.Rows[0][3].ToString();
+                //string x = GetDescription((CVenum)1);
                 cv_cb.Text = Enum.GetName(typeof(CVenum), dt.Rows[0][4]);
                 khoa_cb.Text = dt.Rows[0][5].ToString();
-                pubkey_tb.Text = dt.Rows[0][6].ToString();
-                makhoa_tb.Text = dt.Rows[0][7].ToString();
-               
-                //kiểm tra xem là giáo vụ hay giáo viên để cho phép nhập pubkey tùy chọn
-
+                makhoa_tb.Text = dt.Rows[0][6].ToString();
             }
             catch (Exception ex)
             {
@@ -82,7 +93,7 @@ namespace Demo.User
                 {
                     cnn.Open();
                     //Query để lưu lại thông tin user
-                    string updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= N'{6}' WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedItem, makhoa_tb.Text, pubkey_tb.Text);
+                    string updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= N'{6}' WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedValue, makhoa_tb.Text, pubk);
                     SqlCommand sc = new SqlCommand(updateQuery, cnn);
                     sc.ExecuteNonQuery();
                     MessageBox.Show("Đã lưu!");
@@ -94,26 +105,27 @@ namespace Demo.User
                 }
             }
         }
+        public string generatePubkey(string f, string e)
+        {
+            EncodeUTF8(e);
+            string pubkey = f + e;
+            return pubkey;
+        }
+        public static string pubk; //pubkey
         public void pubkeyUpdate()
         {
-            string pubk;
-            if ((CVenum)cv_cb.SelectedItem == CVenum.GiaoVu)
+            //Kiểm tra xem chức vụ là gì để xây dựng pubkey tương ứng.
+            if ((CVenum)cv_cb.SelectedValue == CVenum.GiaoVu)
             {
-                inspubkey_tb.ReadOnly = true;
-                //encode utf8 tên khoa
-                string p = khoa_cb.Text;
-                EncodeUTF8(p);
-                pubk = makhoa_tb.Text + p;
-                pubkey_tb.Text = pubk;
+                inspubkey_tb.Hide();
+                inspubkey_lb.Hide(); 
+                pubk = generatePubkey(makhoa_tb.Text,khoa_cb.Text);
             }
             else
             {
-                inspubkey_tb.ReadOnly = false;
-                //encode utf8 mã nv
-                string p = magv_tb.Text;
-                EncodeUTF8(p);
-                pubk = inspubkey_tb.Text + p;
-                pubkey_tb.Text = pubk;
+                inspubkey_tb.Show();
+                inspubkey_lb.Show();
+                pubk = generatePubkey(inspubkey_tb.Text,magv_tb.Text);
             }
         }
         private void cv_cb_SelectedIndexChanged(object sender, EventArgs e)

@@ -34,16 +34,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.magv_tb = new System.Windows.Forms.TextBox();
             this.ten_tb = new System.Windows.Forms.TextBox();
             this.email_tb = new System.Windows.Forms.TextBox();
             this.sdt_tb = new System.Windows.Forms.TextBox();
             this.khoa_cb = new System.Windows.Forms.ComboBox();
-            this.pubkey_tb = new System.Windows.Forms.TextBox();
             this.save_btn = new System.Windows.Forms.Button();
             this.cancel_btn = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
+            this.inspubkey_lb = new System.Windows.Forms.Label();
             this.inspubkey_tb = new System.Windows.Forms.TextBox();
             this.cv_cb = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -104,15 +102,6 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Khoa";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(281, 157);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(43, 13);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Pubkey";
-            // 
             // magv_tb
             // 
             this.magv_tb.Location = new System.Drawing.Point(113, 47);
@@ -147,17 +136,9 @@
             this.khoa_cb.FormattingEnabled = true;
             this.khoa_cb.Location = new System.Drawing.Point(334, 73);
             this.khoa_cb.Name = "khoa_cb";
-            this.khoa_cb.Size = new System.Drawing.Size(111, 21);
+            this.khoa_cb.Size = new System.Drawing.Size(157, 21);
             this.khoa_cb.TabIndex = 5;
             this.khoa_cb.SelectedIndexChanged += new System.EventHandler(this.khoa_cb_SelectedIndexChanged);
-            // 
-            // pubkey_tb
-            // 
-            this.pubkey_tb.Location = new System.Drawing.Point(334, 153);
-            this.pubkey_tb.Name = "pubkey_tb";
-            this.pubkey_tb.ReadOnly = true;
-            this.pubkey_tb.Size = new System.Drawing.Size(111, 20);
-            this.pubkey_tb.TabIndex = 7;
             // 
             // save_btn
             // 
@@ -178,19 +159,19 @@
             this.cancel_btn.Text = "Hủy bỏ";
             this.cancel_btn.UseVisualStyleBackColor = true;
             // 
-            // label8
+            // inspubkey_lb
             // 
-            this.label8.Location = new System.Drawing.Point(281, 125);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 32);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Tùy chọn Pubkey";
+            this.inspubkey_lb.Location = new System.Drawing.Point(281, 125);
+            this.inspubkey_lb.Name = "inspubkey_lb";
+            this.inspubkey_lb.Size = new System.Drawing.Size(57, 32);
+            this.inspubkey_lb.TabIndex = 0;
+            this.inspubkey_lb.Text = "Tùy chọn Pubkey";
             // 
             // inspubkey_tb
             // 
             this.inspubkey_tb.Location = new System.Drawing.Point(334, 127);
             this.inspubkey_tb.Name = "inspubkey_tb";
-            this.inspubkey_tb.Size = new System.Drawing.Size(111, 20);
+            this.inspubkey_tb.Size = new System.Drawing.Size(157, 20);
             this.inspubkey_tb.TabIndex = 6;
             this.inspubkey_tb.TextChanged += new System.EventHandler(this.inspubkey_tb_TextChanged);
             // 
@@ -200,7 +181,7 @@
             this.cv_cb.FormattingEnabled = true;
             this.cv_cb.Location = new System.Drawing.Point(334, 46);
             this.cv_cb.Name = "cv_cb";
-            this.cv_cb.Size = new System.Drawing.Size(111, 21);
+            this.cv_cb.Size = new System.Drawing.Size(157, 21);
             this.cv_cb.TabIndex = 4;
             this.cv_cb.SelectedIndexChanged += new System.EventHandler(this.cv_cb_SelectedIndexChanged);
             // 
@@ -218,14 +199,15 @@
             this.makhoa_tb.Location = new System.Drawing.Point(336, 100);
             this.makhoa_tb.Name = "makhoa_tb";
             this.makhoa_tb.ReadOnly = true;
-            this.makhoa_tb.Size = new System.Drawing.Size(109, 20);
+            this.makhoa_tb.Size = new System.Drawing.Size(155, 20);
             this.makhoa_tb.TabIndex = 10;
             // 
             // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(499, 225);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(557, 225);
             this.Controls.Add(this.makhoa_tb);
             this.Controls.Add(this.cancel_btn);
             this.Controls.Add(this.save_btn);
@@ -235,12 +217,10 @@
             this.Controls.Add(this.email_tb);
             this.Controls.Add(this.ten_tb);
             this.Controls.Add(this.inspubkey_tb);
-            this.Controls.Add(this.pubkey_tb);
             this.Controls.Add(this.magv_tb);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.inspubkey_lb);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -262,16 +242,14 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox magv_tb;
         private System.Windows.Forms.TextBox ten_tb;
         private System.Windows.Forms.TextBox email_tb;
         private System.Windows.Forms.TextBox sdt_tb;
         private System.Windows.Forms.ComboBox khoa_cb;
-        private System.Windows.Forms.TextBox pubkey_tb;
         private System.Windows.Forms.Button save_btn;
         private System.Windows.Forms.Button cancel_btn;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label inspubkey_lb;
         private System.Windows.Forms.TextBox inspubkey_tb;
         private System.Windows.Forms.ComboBox cv_cb;
         private System.Windows.Forms.Label label9;

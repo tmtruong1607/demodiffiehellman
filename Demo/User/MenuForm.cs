@@ -23,5 +23,27 @@ namespace Demo.User
                 prof.Show();
                 this.Hide();
         }
+
+        private void MenuForm_Load(object sender, EventArgs e)
+        {
+            this.IsMdiContainer = true;
+        }
+
+        private void ProfileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form prof_child = new Profile();
+            prof_child.Text = "Thông tin cá nhân";
+            prof_child.FormBorderStyle = FormBorderStyle.None;
+            prof_child.Dock = DockStyle.Fill;
+            prof_child.MdiParent = this;
+            prof_child.Show();
+        }
+
+        private void LogoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

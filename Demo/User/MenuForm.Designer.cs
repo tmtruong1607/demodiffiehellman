@@ -28,45 +28,77 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.profile_btn = new System.Windows.Forms.Button();
+            this.quảnLýĐiểmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LogoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // quảnLýĐiểmToolStripMenuItem
             // 
-            this.button1.Location = new System.Drawing.Point(98, 88);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Quản lý điểm";
-            this.button1.UseVisualStyleBackColor = true;
+            this.quảnLýĐiểmToolStripMenuItem.Name = "quảnLýĐiểmToolStripMenuItem";
+            this.quảnLýĐiểmToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.quảnLýĐiểmToolStripMenuItem.Text = "Quản lý điểm";
             // 
-            // profile_btn
+            // tàiKhoảnToolStripMenuItem
             // 
-            this.profile_btn.Location = new System.Drawing.Point(280, 88);
-            this.profile_btn.Name = "profile_btn";
-            this.profile_btn.Size = new System.Drawing.Size(107, 23);
-            this.profile_btn.TabIndex = 0;
-            this.profile_btn.Text = "Thông tin cá nhân";
-            this.profile_btn.UseVisualStyleBackColor = true;
-            this.profile_btn.Click += new System.EventHandler(this.profile_btn_Click);
+            this.tàiKhoảnToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ProfileToolStripMenuItem,
+            this.LogoutToolStripMenuItem});
+            this.tàiKhoảnToolStripMenuItem.Name = "tàiKhoảnToolStripMenuItem";
+            this.tàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.tàiKhoảnToolStripMenuItem.Text = "Tài khoản";
             // 
-            // Menu
+            // ProfileToolStripMenuItem
+            // 
+            this.ProfileToolStripMenuItem.Name = "ProfileToolStripMenuItem";
+            this.ProfileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ProfileToolStripMenuItem.Text = "Thông tin cá nhân";
+            this.ProfileToolStripMenuItem.Click += new System.EventHandler(this.ProfileToolStripMenuItem_Click);
+            // 
+            // LogoutToolStripMenuItem
+            // 
+            this.LogoutToolStripMenuItem.Name = "LogoutToolStripMenuItem";
+            this.LogoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.LogoutToolStripMenuItem.Text = "Đăng xuất";
+            this.LogoutToolStripMenuItem.Click += new System.EventHandler(this.LogoutToolStripMenuItem_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quảnLýĐiểmToolStripMenuItem,
+            this.tàiKhoảnToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(616, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 181);
-            this.Controls.Add(this.profile_btn);
-            this.Controls.Add(this.button1);
-            this.Name = "Menu";
+            this.ClientSize = new System.Drawing.Size(616, 306);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Name = "MenuForm";
             this.Text = "MenuForm";
+            this.Load += new System.EventHandler(this.MenuForm_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button profile_btn;
+        private System.Windows.Forms.ToolStripMenuItem quảnLýĐiểmToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tàiKhoảnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ProfileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem LogoutToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
     }
 }
