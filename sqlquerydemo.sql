@@ -23,11 +23,11 @@ GO
 
 CREATE TABLE tbl_USER
 (
-	MaNV VARCHAR(8) CONSTRAINT PK_USER PRIMARY KEY,
+	MaNV INT IDENTITY (1001,1) CONSTRAINT PK_USER PRIMARY KEY,
 	TenNV NVARCHAR(52),
 	Email VARCHAR(20),
 	SDT VARCHAR(11),
-	ChucVu INT,
+	ChucVu INT, --0 là admin, 1 là giáo viên, 2 là giáo vụ
 	MaKhoa VARCHAR(8),
 	TenDN VARCHAR(16),
 	MatKhau VARBINARY(MAX) NOT NULL,
@@ -56,7 +56,7 @@ GO
 
 CREATE TABLE tbl_LOPHP
 (
-	MaNV VARCHAR(8),
+	MaNV INT,
 	MaLop VARCHAR(12) CONSTRAINT PK_LOPHP PRIMARY KEY,
 	TenLop NVARCHAR(50)
 )
@@ -69,9 +69,9 @@ INSERT INTO dbo.tbl_LOPHP
     TenLop
 )
 VALUES
-	('GV01', 'MATH101', N'Toán cao cấp 1'),
-	('GV01', 'MATH201', N'Toán cao cấp 2'),
-	('GV02','MILI101', N'Quốc phòng 1')
+	('1002', 'MATH101', N'Toán cao cấp 1'),
+	('1002', 'MATH201', N'Toán cao cấp 2'),
+	('1003','MILI101', N'Quốc phòng 1')
 GO
 
 CREATE TABLE tbl_BANGDIEM
@@ -99,4 +99,34 @@ ALTER TABLE dbo.tbl_LOPHP ADD CONSTRAINT FK_LOPHP_USER_MaNV FOREIGN KEY (MaNV) R
 ALTER TABLE dbo.tbl_BANGDIEM ADD CONSTRAINT FK_BANGDIEM_SINHVIEN FOREIGN KEY (MaSV) REFERENCES dbo.tbl_SINHVIEN (MaSV)
 ALTER TABLE dbo.tbl_BANGDIEM ADD CONSTRAINT FK_BANGDIEM_LOPHP FOREIGN KEY (MaLop) REFERENCES dbo.tbl_LOPHP (MaLop)
 ALTER TABLE dbo.tbl_USER ADD  CONSTRAINT FK_USER_KHOA_MaKhoa FOREIGN KEY (MaKhoa) REFERENCES dbo.tbl_KHOA (MaKhoa)
+
+INSERT INTO dbo.tbl_USER
+(
+    TenNV,
+    Email,
+    SDT,
+    ChucVu,
+    MaKhoa,
+	TenDN,
+	MatKhau,
+    PubKey,
+    PriKey
+)
+VALUES
+(
+    N'Administrator', -- TenNV - nvarchar(52)
+    NULL,  -- Email - varchar(20)
+    NULL,  -- SDT - varchar(11)
+    0,   -- ChucVu - int
+    (SELECT MaKhoa FROM dbo.tbl_KHOA WHERE dbo.tbl_KHOA.MaKhoa = 'CNTT'),  -- MaKhoa - varchar(8)
+    'admin',
+	CONVERT(VARBINARY(max),N'0xE99A18C428CB38D5F260853678922E03',1),
+	NULL,  -- PubKey - varchar(50)
+    NULL  -- PriKey - varchar(50)
+    )
+
+PRINT(CONVERT(VARBINARY(MAX),N'0xE99A18C428CB38D5F260853678922E03',1))
+
+SELECT u.MaNV AS N'Mã GV', u.TenNV AS N'Họ và tên', u.ChucVu AS N'Chức vụ', k.TenKhoa FROM dbo.tbl_USER AS u JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa
+SELECT ChucVu FROM tbl_USER WHERE TenDN = 'admin' AND MatKhau = (SELECT CONVERT(VARBINARY(MAX), N'0xE99A18C428CB38D5F260853678922E03',1))
 

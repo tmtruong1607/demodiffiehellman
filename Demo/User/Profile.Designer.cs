@@ -1,6 +1,6 @@
-﻿namespace Demo
+﻿namespace Demo.User
 {
-    partial class User
+    partial class Profile
     {
         /// <summary>
         /// Required designer variable.
@@ -39,11 +39,15 @@
             this.ten_tb = new System.Windows.Forms.TextBox();
             this.email_tb = new System.Windows.Forms.TextBox();
             this.sdt_tb = new System.Windows.Forms.TextBox();
-            this.chucvu_tb = new System.Windows.Forms.TextBox();
-            this.khoa_tb = new System.Windows.Forms.ComboBox();
+            this.khoa_cb = new System.Windows.Forms.ComboBox();
             this.pubkey_tb = new System.Windows.Forms.TextBox();
             this.save_btn = new System.Windows.Forms.Button();
             this.cancel_btn = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.inspubkey_tb = new System.Windows.Forms.TextBox();
+            this.cv_cb = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.makhoa_tb = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -103,7 +107,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(281, 103);
+            this.label7.Location = new System.Drawing.Point(281, 157);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(43, 13);
             this.label7.TabIndex = 0;
@@ -114,7 +118,7 @@
             this.magv_tb.Location = new System.Drawing.Point(113, 47);
             this.magv_tb.Name = "magv_tb";
             this.magv_tb.Size = new System.Drawing.Size(118, 20);
-            this.magv_tb.TabIndex = 1;
+            this.magv_tb.TabIndex = 0;
             // 
             // ten_tb
             // 
@@ -128,78 +132,123 @@
             this.email_tb.Location = new System.Drawing.Point(113, 100);
             this.email_tb.Name = "email_tb";
             this.email_tb.Size = new System.Drawing.Size(118, 20);
-            this.email_tb.TabIndex = 1;
+            this.email_tb.TabIndex = 2;
             // 
             // sdt_tb
             // 
             this.sdt_tb.Location = new System.Drawing.Point(113, 126);
             this.sdt_tb.Name = "sdt_tb";
             this.sdt_tb.Size = new System.Drawing.Size(118, 20);
-            this.sdt_tb.TabIndex = 1;
+            this.sdt_tb.TabIndex = 3;
             // 
-            // chucvu_tb
+            // khoa_cb
             // 
-            this.chucvu_tb.Location = new System.Drawing.Point(334, 47);
-            this.chucvu_tb.Name = "chucvu_tb";
-            this.chucvu_tb.Size = new System.Drawing.Size(111, 20);
-            this.chucvu_tb.TabIndex = 1;
-            // 
-            // khoa_tb
-            // 
-            this.khoa_tb.FormattingEnabled = true;
-            this.khoa_tb.Location = new System.Drawing.Point(334, 73);
-            this.khoa_tb.Name = "khoa_tb";
-            this.khoa_tb.Size = new System.Drawing.Size(111, 21);
-            this.khoa_tb.TabIndex = 2;
+            this.khoa_cb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.khoa_cb.FormattingEnabled = true;
+            this.khoa_cb.Location = new System.Drawing.Point(334, 73);
+            this.khoa_cb.Name = "khoa_cb";
+            this.khoa_cb.Size = new System.Drawing.Size(111, 21);
+            this.khoa_cb.TabIndex = 5;
+            this.khoa_cb.SelectedIndexChanged += new System.EventHandler(this.khoa_cb_SelectedIndexChanged);
             // 
             // pubkey_tb
             // 
-            this.pubkey_tb.Location = new System.Drawing.Point(334, 100);
+            this.pubkey_tb.Location = new System.Drawing.Point(334, 153);
             this.pubkey_tb.Name = "pubkey_tb";
+            this.pubkey_tb.ReadOnly = true;
             this.pubkey_tb.Size = new System.Drawing.Size(111, 20);
-            this.pubkey_tb.TabIndex = 1;
+            this.pubkey_tb.TabIndex = 7;
             // 
             // save_btn
             // 
-            this.save_btn.Location = new System.Drawing.Point(301, 180);
+            this.save_btn.Location = new System.Drawing.Point(180, 190);
             this.save_btn.Name = "save_btn";
             this.save_btn.Size = new System.Drawing.Size(75, 23);
-            this.save_btn.TabIndex = 3;
+            this.save_btn.TabIndex = 8;
             this.save_btn.Text = "Lưu";
             this.save_btn.UseVisualStyleBackColor = true;
+            this.save_btn.Click += new System.EventHandler(this.save_btn_Click);
             // 
             // cancel_btn
             // 
-            this.cancel_btn.Location = new System.Drawing.Point(187, 180);
+            this.cancel_btn.Location = new System.Drawing.Point(66, 190);
             this.cancel_btn.Name = "cancel_btn";
             this.cancel_btn.Size = new System.Drawing.Size(75, 23);
-            this.cancel_btn.TabIndex = 3;
+            this.cancel_btn.TabIndex = 9;
             this.cancel_btn.Text = "Hủy bỏ";
             this.cancel_btn.UseVisualStyleBackColor = true;
             // 
-            // User
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(281, 125);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 32);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Tùy chọn Pubkey";
+            // 
+            // inspubkey_tb
+            // 
+            this.inspubkey_tb.Location = new System.Drawing.Point(334, 127);
+            this.inspubkey_tb.Name = "inspubkey_tb";
+            this.inspubkey_tb.Size = new System.Drawing.Size(111, 20);
+            this.inspubkey_tb.TabIndex = 6;
+            this.inspubkey_tb.TextChanged += new System.EventHandler(this.inspubkey_tb_TextChanged);
+            // 
+            // cv_cb
+            // 
+            this.cv_cb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cv_cb.FormattingEnabled = true;
+            this.cv_cb.Location = new System.Drawing.Point(334, 46);
+            this.cv_cb.Name = "cv_cb";
+            this.cv_cb.Size = new System.Drawing.Size(111, 21);
+            this.cv_cb.TabIndex = 4;
+            this.cv_cb.SelectedIndexChanged += new System.EventHandler(this.cv_cb_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(281, 103);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(49, 13);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Mã khoa";
+            // 
+            // makhoa_tb
+            // 
+            this.makhoa_tb.Location = new System.Drawing.Point(336, 100);
+            this.makhoa_tb.Name = "makhoa_tb";
+            this.makhoa_tb.ReadOnly = true;
+            this.makhoa_tb.Size = new System.Drawing.Size(109, 20);
+            this.makhoa_tb.TabIndex = 10;
+            // 
+            // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(499, 225);
+            this.Controls.Add(this.makhoa_tb);
             this.Controls.Add(this.cancel_btn);
             this.Controls.Add(this.save_btn);
-            this.Controls.Add(this.khoa_tb);
+            this.Controls.Add(this.cv_cb);
+            this.Controls.Add(this.khoa_cb);
             this.Controls.Add(this.sdt_tb);
             this.Controls.Add(this.email_tb);
             this.Controls.Add(this.ten_tb);
+            this.Controls.Add(this.inspubkey_tb);
             this.Controls.Add(this.pubkey_tb);
-            this.Controls.Add(this.chucvu_tb);
             this.Controls.Add(this.magv_tb);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
-            this.Name = "User";
+            this.Name = "Profile";
             this.Text = "User";
+            this.Load += new System.EventHandler(this.Profile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,10 +267,14 @@
         private System.Windows.Forms.TextBox ten_tb;
         private System.Windows.Forms.TextBox email_tb;
         private System.Windows.Forms.TextBox sdt_tb;
-        private System.Windows.Forms.TextBox chucvu_tb;
-        private System.Windows.Forms.ComboBox khoa_tb;
+        private System.Windows.Forms.ComboBox khoa_cb;
         private System.Windows.Forms.TextBox pubkey_tb;
         private System.Windows.Forms.Button save_btn;
         private System.Windows.Forms.Button cancel_btn;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox inspubkey_tb;
+        private System.Windows.Forms.ComboBox cv_cb;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox makhoa_tb;
     }
 }

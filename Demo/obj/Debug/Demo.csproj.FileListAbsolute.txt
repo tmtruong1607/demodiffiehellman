@@ -1,0 +1,13 @@
+C:\Users\tmtru\source\repos\Demo\Demo\bin\Debug\Demo.exe.config
+C:\Users\tmtru\source\repos\Demo\Demo\bin\Debug\Demo.exe
+C:\Users\tmtru\source\repos\Demo\Demo\bin\Debug\Demo.pdb
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.csprojAssemblyReference.cache
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.Login.resources
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.Properties.Resources.resources
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.csproj.GenerateResource.cache
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.csproj.CoreCompileInputs.cache
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.exe
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.pdb
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.UserManager.resources
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.User.MenuForm.resources
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.User.Profile.resources

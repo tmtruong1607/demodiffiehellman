@@ -8,14 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Demo
+namespace Demo.User
 {
-    public partial class User : Form
+    public partial class MenuForm : Form
     {
-        public User()
+        public MenuForm()
         {
             InitializeComponent();
         }
 
+        private void profile_btn_Click(object sender, EventArgs e)
+        {
+                Form prof = new Profile();
+                prof.Show();
+                this.Hide();
+        }
     }
 }

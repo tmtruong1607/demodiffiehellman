@@ -46,6 +46,7 @@
             // 
             this.pw_tb.Location = new System.Drawing.Point(112, 70);
             this.pw_tb.Name = "pw_tb";
+            this.pw_tb.PasswordChar = '*';
             this.pw_tb.Size = new System.Drawing.Size(133, 20);
             this.pw_tb.TabIndex = 1;
             // 
@@ -77,7 +78,7 @@
             this.lg_btn.UseVisualStyleBackColor = true;
             this.lg_btn.Click += new System.EventHandler(this.lg_btn_Click);
             // 
-            // Form1
+            // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -87,7 +88,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pw_tb);
             this.Controls.Add(this.id_tb);
-            this.Name = "Form1";
+            this.Name = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Đăng nhập";
             this.ResumeLayout(false);
             this.PerformLayout();

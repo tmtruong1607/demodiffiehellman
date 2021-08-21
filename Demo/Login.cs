@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.Data;
 using System.Security.Cryptography;
+using System.Configuration;
 using Demo.Encryption;
+using Demo.User;
 
 namespace Demo
 {
@@ -20,33 +16,41 @@ namespace Demo
         {
             InitializeComponent();
         }
-
+        public static string id_user;
         private void lg_btn_Click(object sender, EventArgs e)
         {
-            DBConnection dbc = new DBConnection();
-            SqlConnection cnn = dbc.DB_Connection();
+            SqlConnection cnn = new SqlConnection();
+            cnn.ConnectionString = ConfigurationManager.ConnectionStrings["DemoDBConnectionString"].ConnectionString;
             MD5 md5Hash = MD5.Create();
-            MD5En md5e = new MD5En();
-            string md5str = md5e.GetMd5Hash(md5Hash, pw_tb.Text.ToString());
-
+            MD5Encryption md5e = new MD5Encryption();
             try
             {
                 cnn.Open();
-                string login_check = string.Format("SELECT COUNT(*) FROM tbl_USER WHERE TenDN = '{0}' AND MatKhau = (SELECT CONVERT(VARBINARY(MAX), N'{1}',1))", id_tb.Text, (md5e.GetMd5Hash(md5Hash, pw_tb.Text)));
+                string login_check = string.Format("SELECT ChucVu, MaNV FROM tbl_USER WHERE TenDN = '{0}' AND MatKhau = (SELECT CONVERT(VARBINARY(MAX), N'{1}',1))", id_tb.Text, md5e.GetMd5Hash(md5Hash,pw_tb.Text));
                 SqlDataAdapter sda = new SqlDataAdapter(login_check, cnn);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
-                if (dt.Rows[0][0].ToString() == "1")
+                if (dt.Rows.Count != 0)
                 {
-                    MessageBox.Show("Login success!");
-                    Form menu = new MenuForm();
-                    menu.Show();
+                    MessageBox.Show("Đăng nhập thành công!");
+                    if (dt.Rows[0][0].ToString() == "0")
+                    {
+                        Form usermanager = new UserManager();
+                        usermanager.Show();
+                    }
+                    else
+                    {
+                        Form menu = new MenuForm();
+                        menu.Show();
+                    }
+                    id_user = dt.Rows[0][1].ToString();
                     this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("Invalid username or password");
+                    MessageBox.Show("Sai thông tin đăng nhập!");
                 }
+                cnn.Close();
             }
             catch (Exception ex)
             {
