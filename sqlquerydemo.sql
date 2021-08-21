@@ -124,9 +124,3 @@ VALUES
 	NULL,  -- PubKey - varchar(50)
     NULL  -- PriKey - varchar(50)
     )
-
-PRINT(CONVERT(VARBINARY(MAX),N'0xE99A18C428CB38D5F260853678922E03',1))
-
-SELECT u.MaNV AS N'Mã GV', u.TenNV AS N'Họ và tên', u.ChucVu AS N'Chức vụ', k.TenKhoa FROM dbo.tbl_USER AS u JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa
-SELECT ChucVu FROM tbl_USER WHERE TenDN = 'admin' AND MatKhau = (SELECT CONVERT(VARBINARY(MAX), N'0xE99A18C428CB38D5F260853678922E03',1))
-
