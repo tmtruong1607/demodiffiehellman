@@ -41,8 +41,8 @@
             this.khoa_cb = new System.Windows.Forms.ComboBox();
             this.save_btn = new System.Windows.Forms.Button();
             this.cancel_btn = new System.Windows.Forms.Button();
-            this.inspubkey_lb = new System.Windows.Forms.Label();
-            this.inspubkey_tb = new System.Windows.Forms.TextBox();
+            this.insprivkey_lb = new System.Windows.Forms.Label();
+            this.insprivkey_tb = new System.Windows.Forms.TextBox();
             this.cv_cb = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.makhoa_tb = new System.Windows.Forms.TextBox();
@@ -159,21 +159,21 @@
             this.cancel_btn.Text = "Hủy bỏ";
             this.cancel_btn.UseVisualStyleBackColor = true;
             // 
-            // inspubkey_lb
+            // insprivkey_lb
             // 
-            this.inspubkey_lb.Location = new System.Drawing.Point(281, 125);
-            this.inspubkey_lb.Name = "inspubkey_lb";
-            this.inspubkey_lb.Size = new System.Drawing.Size(57, 32);
-            this.inspubkey_lb.TabIndex = 0;
-            this.inspubkey_lb.Text = "Tùy chọn Pubkey";
+            this.insprivkey_lb.Location = new System.Drawing.Point(281, 125);
+            this.insprivkey_lb.Name = "insprivkey_lb";
+            this.insprivkey_lb.Size = new System.Drawing.Size(57, 32);
+            this.insprivkey_lb.TabIndex = 0;
+            this.insprivkey_lb.Text = "Tùy chọn Pubkey";
             // 
-            // inspubkey_tb
+            // insprivkey_tb
             // 
-            this.inspubkey_tb.Location = new System.Drawing.Point(334, 127);
-            this.inspubkey_tb.Name = "inspubkey_tb";
-            this.inspubkey_tb.Size = new System.Drawing.Size(157, 20);
-            this.inspubkey_tb.TabIndex = 6;
-            this.inspubkey_tb.TextChanged += new System.EventHandler(this.inspubkey_tb_TextChanged);
+            this.insprivkey_tb.Location = new System.Drawing.Point(334, 127);
+            this.insprivkey_tb.Name = "insprivkey_tb";
+            this.insprivkey_tb.Size = new System.Drawing.Size(157, 20);
+            this.insprivkey_tb.TabIndex = 6;
+            this.insprivkey_tb.TextChanged += new System.EventHandler(this.insprivkey_tb_TextChanged);
             // 
             // cv_cb
             // 
@@ -216,10 +216,10 @@
             this.Controls.Add(this.sdt_tb);
             this.Controls.Add(this.email_tb);
             this.Controls.Add(this.ten_tb);
-            this.Controls.Add(this.inspubkey_tb);
+            this.Controls.Add(this.insprivkey_tb);
             this.Controls.Add(this.magv_tb);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.inspubkey_lb);
+            this.Controls.Add(this.insprivkey_lb);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -249,8 +249,8 @@
         private System.Windows.Forms.ComboBox khoa_cb;
         private System.Windows.Forms.Button save_btn;
         private System.Windows.Forms.Button cancel_btn;
-        private System.Windows.Forms.Label inspubkey_lb;
-        private System.Windows.Forms.TextBox inspubkey_tb;
+        private System.Windows.Forms.Label insprivkey_lb;
+        private System.Windows.Forms.TextBox insprivkey_tb;
         private System.Windows.Forms.ComboBox cv_cb;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox makhoa_tb;

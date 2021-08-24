@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Data;
 
 
-namespace Demo
+namespace Demo.DBConnection
 {
     public partial class GetConnection
     {

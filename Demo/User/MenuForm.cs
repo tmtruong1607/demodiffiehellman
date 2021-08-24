@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Demo.User
@@ -17,20 +10,39 @@ namespace Demo.User
             InitializeComponent();
         }
 
-        private void profile_btn_Click(object sender, EventArgs e)
-        {
-                Form prof = new Profile();
-                prof.Show();
-                this.Hide();
-        }
-
         private void MenuForm_Load(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
+            //Form marmag_child = new MarkManager();
+            //marmag_child.Text = "Quản lý điểm";
+            //marmag_child.FormBorderStyle = FormBorderStyle.None;
+            //marmag_child.Dock = DockStyle.Fill;
+            //marmag_child.MdiParent = this;
+            //marmag_child.Show();
+        }
+        private void LogoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form login = new Login();
+            login.Show();
+            this.Close();
+        }
+
+        private void MarkManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ActiveMdiChild != null) { ActiveMdiChild.Close(); }
+                //this.ActiveMdiChild.Close();
+            Form marmag_child = new MarkManager();
+            marmag_child.Text = "Quản lý điểm";
+            marmag_child.FormBorderStyle = FormBorderStyle.None;
+            marmag_child.Dock = DockStyle.Fill;
+            marmag_child.MdiParent = this;
+            marmag_child.Show();
         }
 
         private void ProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //if (this.MdiChildren.Count() == 0)
+            if (ActiveMdiChild != null) { ActiveMdiChild.Close(); }
             Form prof_child = new Profile();
             prof_child.Text = "Thông tin cá nhân";
             prof_child.FormBorderStyle = FormBorderStyle.None;
@@ -39,11 +51,16 @@ namespace Demo.User
             prof_child.Show();
         }
 
-        private void LogoutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MarkManager2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form login = new Login();
-            login.Show();
-            this.Close();
+            if (ActiveMdiChild != null) { ActiveMdiChild.Close(); }
+            //this.ActiveMdiChild.Close();
+            Form marmag_child = new MarkManager();
+            marmag_child.Text = "Quản lý điểm";
+            marmag_child.FormBorderStyle = FormBorderStyle.None;
+            marmag_child.Dock = DockStyle.Fill;
+            marmag_child.MdiParent = this;
+            marmag_child.Show();
         }
     }
 }

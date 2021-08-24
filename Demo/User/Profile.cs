@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
 using System.Data.SqlClient;
+using Demo.DBConnection;
+using Demo.Encryption;
 
 namespace Demo.User
 {
@@ -64,8 +62,8 @@ namespace Demo.User
                 ten_tb.Text = dt.Rows[0][1].ToString();
                 email_tb.Text = dt.Rows[0][2].ToString();
                 sdt_tb.Text = dt.Rows[0][3].ToString();
-                //string x = GetDescription((CVenum)1);
-                cv_cb.Text = Enum.GetName(typeof(CVenum), dt.Rows[0][4]);
+                int ind = (int)dt.Rows[0][4]; //Lấy giá trị của chức vụ (1,2)
+                cv_cb.SelectedIndex = ind-1; //Gán giá trị của chức vụ vào combobox để làm giá trị mặc định khi load.
                 khoa_cb.Text = dt.Rows[0][5].ToString();
                 makhoa_tb.Text = dt.Rows[0][6].ToString();
             }
@@ -93,7 +91,7 @@ namespace Demo.User
                 {
                     cnn.Open();
                     //Query để lưu lại thông tin user
-                    string updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= N'{6}' WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedValue, makhoa_tb.Text, pubk);
+                    string updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= (SELECT CONVERT(VARBINARY(MAX),'{6}')), PrivKey= (SELECT CONVERT(VARBINARY(MAX),'{7}')) WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedValue, makhoa_tb.Text, Convert.ToBase64String(publicKey), Convert.ToBase64String(privateKey));
                     SqlCommand sc = new SqlCommand(updateQuery, cnn);
                     sc.ExecuteNonQuery();
                     MessageBox.Show("Đã lưu!");
@@ -105,32 +103,36 @@ namespace Demo.User
                 }
             }
         }
-        public string generatePubkey(string f, string e)
+        byte[] generatePrivKey(string privk)
         {
-            EncodeUTF8(e);
-            string pubkey = f + e;
-            return pubkey;
+            byte[] tmp = Encoding.UTF8.GetBytes(privk);
+            return Curve25519.ClampPrivateKey(tmp);
         }
-        public static string pubk; //pubkey
-        public void pubkeyUpdate()
+        public static byte[] publicKey; //pubkey
+        public static byte[] privateKey;
+        public void privateKeyUpdate()
         {
             //Kiểm tra xem chức vụ là gì để xây dựng pubkey tương ứng.
             if ((CVenum)cv_cb.SelectedValue == CVenum.GiaoVu)
             {
-                inspubkey_tb.Hide();
-                inspubkey_lb.Hide(); 
-                pubk = generatePubkey(makhoa_tb.Text,khoa_cb.Text);
+                insprivkey_tb.Hide();
+                insprivkey_lb.Hide();
+                string privateKeyString = makhoa_tb.Text + khoa_cb.Text;
+                privateKey = generatePrivKey(privateKeyString);
+                publicKey = Curve25519.GetPublicKey(privateKey);
             }
             else
             {
-                inspubkey_tb.Show();
-                inspubkey_lb.Show();
-                pubk = generatePubkey(inspubkey_tb.Text,magv_tb.Text);
+                insprivkey_tb.Show();
+                insprivkey_lb.Show();
+                string privateKeyString = insprivkey_tb.Text + magv_tb.Text;
+                privateKey = generatePrivKey(privateKeyString);
+                publicKey = Curve25519.GetPublicKey(privateKey);
             }
         }
         private void cv_cb_SelectedIndexChanged(object sender, EventArgs e)
         {
-            pubkeyUpdate();
+            privateKeyUpdate();
         }
 
         private void khoa_cb_SelectedIndexChanged(object sender, EventArgs e)
@@ -145,7 +147,7 @@ namespace Demo.User
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
                 makhoa_tb.Text = dt.Rows[0][0].ToString();
-                pubkeyUpdate();
+                privateKeyUpdate();
                 cnn.Close();
             }
             catch (Exception ex)
@@ -154,9 +156,9 @@ namespace Demo.User
             }
         }
 
-        private void inspubkey_tb_TextChanged(object sender, EventArgs e)
+        private void insprivkey_tb_TextChanged(object sender, EventArgs e)
         {
-            pubkeyUpdate();
+            privateKeyUpdate();
         }
     }
 }

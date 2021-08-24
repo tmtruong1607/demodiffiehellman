@@ -28,19 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.quảnLýĐiểmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MarkManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LogoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.quảnLýĐiểmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // quảnLýĐiểmToolStripMenuItem
+            // MarkManagerToolStripMenuItem
             // 
-            this.quảnLýĐiểmToolStripMenuItem.Name = "quảnLýĐiểmToolStripMenuItem";
-            this.quảnLýĐiểmToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
-            this.quảnLýĐiểmToolStripMenuItem.Text = "Quản lý điểm";
+            this.MarkManagerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quảnLýĐiểmToolStripMenuItem});
+            this.MarkManagerToolStripMenuItem.Name = "MarkManagerToolStripMenuItem";
+            this.MarkManagerToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.MarkManagerToolStripMenuItem.Text = "Quản lý điểm";
             // 
             // tàiKhoảnToolStripMenuItem
             // 
@@ -68,19 +71,27 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quảnLýĐiểmToolStripMenuItem,
+            this.MarkManagerToolStripMenuItem,
             this.tàiKhoảnToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(616, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(609, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // quảnLýĐiểmToolStripMenuItem
+            // 
+            this.quảnLýĐiểmToolStripMenuItem.Name = "quảnLýĐiểmToolStripMenuItem";
+            this.quảnLýĐiểmToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quảnLýĐiểmToolStripMenuItem.Text = "Quản lý điểm";
+            this.quảnLýĐiểmToolStripMenuItem.Click += new System.EventHandler(this.MarkManager2ToolStripMenuItem_Click);
             // 
             // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 306);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(609, 386);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MenuForm";
@@ -95,10 +106,11 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStripMenuItem quảnLýĐiểmToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MarkManagerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tàiKhoảnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LogoutToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem quảnLýĐiểmToolStripMenuItem;
     }
 }

@@ -11,3 +11,4 @@ C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.pdb
 C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.UserManager.resources
 C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.User.MenuForm.resources
 C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.User.Profile.resources
+C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.User.MarkManager.resources
