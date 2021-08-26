@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encryption\AES.cs" />
     <Compile Include="Encryption\Curve25519.cs" />
     <Compile Include="Encryption\DiffieHellman.cs" />
     <Compile Include="Encryption\MD5Encryption.cs" />

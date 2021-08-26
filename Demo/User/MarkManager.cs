@@ -11,7 +11,10 @@ namespace Demo.User
 {
     public partial class MarkManager : Form
     {
+        public SqlConnection cnn = GetConnection.getConnection();
+        //public byte[] sharedKey = null;
         string id_user = Login.id_user;
+        string cv_user = Login.cv_user;
         public MarkManager()
         {
             InitializeComponent();
@@ -20,13 +23,37 @@ namespace Demo.User
         {
             this.WindowState = FormWindowState.Maximized;
         }
-        public byte[] loadAndGenerateSharedKey()
+        private void MarkManager_Load(object sender, EventArgs e)
+        {
+            //id_user = Login.id_user;
+            allowEdit();
+            loadDataListClass();
+        }
+        //Kiểm tra xem là giáo vụ hay giáo viên để cấp quyền sửa điểm
+        private void allowEdit()
+        {
+            if (cv_user == "1")
+            {
+                transcript_dgv.ReadOnly = false;
+                save_btn.Show();
+                cancel_btn.Show();
+            }
+            else
+            {
+                transcript_dgv.ReadOnly = true;
+                save_btn.Hide();
+                cancel_btn.Hide();
+            }
+        }
+
+        //Lấy cặp public/private key của giáo viên và giáo vụ để generate sharedkey
+        public byte[] loadAndGenerateSharedKey(string id)
         {
             byte[] sharedKey = null;
             try
             {
-                cnn.Open();
-                string getKeysQuery_GiaoVien = string.Format("SELECT (CONVERT(VARCHAR(MAX),u.PrivKey)), (CONVERT(VARCHAR(MAX),u.PubKey)), u.MaKhoa FROM dbo.tbl_USER AS u JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id_user);
+                //cnn.Open();
+                string getKeysQuery_GiaoVien = string.Format("SELECT (CONVERT(VARCHAR(MAX),u.PrivKey)), (CONVERT(VARCHAR(MAX),u.PubKey)), u.MaKhoa FROM dbo.tbl_USER AS u JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id);
                 SqlDataAdapter sda = new SqlDataAdapter(getKeysQuery_GiaoVien, cnn);
                 DataTable dt1 = new DataTable();
                 sda.Fill(dt1);
@@ -34,9 +61,8 @@ namespace Demo.User
                 DataTable dt2 = new DataTable();
                 SqlDataAdapter sda2 = new SqlDataAdapter(getKeysQuery_GiaoVu, cnn);
                 sda2.Fill(dt2);
-                
                 sharedKey = Curve25519.GetSharedSecret(Convert.FromBase64String(dt1.Rows[0][0].ToString()), Convert.FromBase64String(dt2.Rows[0][1].ToString()));
-                cnn.Close();
+                //cnn.Close();
             }
             catch (Exception ex)
             {
@@ -45,7 +71,6 @@ namespace Demo.User
 
             return sharedKey;
         }
-        public SqlConnection cnn = GetConnection.getConnection();
         //Lấy danh sách lớp học phần cho combobox
         public void loadDataListClass()
         {
@@ -67,67 +92,22 @@ namespace Demo.User
             }
         }
         //Lấy bảng điểm theo lớp học phần
-        private String Encrypt256(string mark, byte[] sharedKey)
+        public void loadDataTranscript(string malopString)
         {
-            // AesCryptoServiceProvider
-            byte[] Key = sharedKey;
-            Array.Resize(ref Key, 32);
-            AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
-            aes.BlockSize = 128;
-            aes.KeySize = 256;
-            //aes.GenerateKey();
-            aes.Key = Key;
-            aes.IV = Encoding.UTF8.GetBytes(@"!QAZ2WSX#EDC4RFV");
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-            //string markString = mark.ToString();
-            // Convert string to byte array
-            byte[] src = System.Text.ASCIIEncoding.ASCII.GetBytes(mark);
-            //MessageBox.Show(Encoding.UTF8.GetString(src));
-
-            // encryption
-            using (ICryptoTransform encrypt = aes.CreateEncryptor())
-            {
-                byte[] dest = encrypt.TransformFinalBlock(src, 0, src.Length);
-                string result = Convert.ToBase64String(dest);
-                //test_tb.Text = PrintByteArray(dest);
-                return result;
-                // Convert byte array to Base64 strings
-                //return Convert.ToBase64String(dest);
-            }
-        }
-
-        private string Decrypt256(string markEncrypted, byte[] sharedKey)
-        {
-            byte[] Key = sharedKey;
-            Array.Resize(ref Key, 32);
-            // AesCryptoServiceProvider
-            AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
-            aes.BlockSize = 128;
-            aes.KeySize = 256;
-            aes.IV = Encoding.UTF8.GetBytes(@"!QAZ2WSX#EDC4RFV");
-            aes.Key = Key;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-
-            // Convert Base64 strings to byte array
-            byte[] src = Convert.FromBase64String(markEncrypted);
-
-            // decryption
-            using (ICryptoTransform decrypt = aes.CreateDecryptor())
-            {
-                byte[] dest = decrypt.TransformFinalBlock(src, 0, src.Length);
-                return  Encoding.UTF8.GetString(dest);
-                //float markDecrypted = float.Parse(tmp);
-                //return markDecrypted;
-            }
-        }
-        public void loadDataTranscript(byte[] sharedKey, string malopString)
-        {
+            byte[] sharedKey = null;
             try
             {
-                cnn.Open();
-                string loadDataQuery = String.Format("SELECT bd.MaSV AS N'Mã sinh viên', sv.TenSV AS N'Họ và tên', (SELECT CONVERT(VARCHAR(MAX),bd.Diem)) AS N'Điểm' FROM dbo.tbl_BANGDIEM AS bd JOIN dbo.tbl_SINHVIEN AS sv ON sv.MaSV = bd.MaSV WHERE bd.MaLop = '{0}'",malopString);
+                if (cv_user == "1")
+                {
+                    sharedKey = loadAndGenerateSharedKey(id_user);
+                }
+                else if (cv_user == "2")
+                {
+                    sharedKey = loadAndGenerateSharedKey(magvpt_tb.Text);
+                }
+                
+                //cnn.Open();
+                string loadDataQuery = String.Format("SELECT bd.MaSV AS N'Mã sinh viên', sv.TenSV AS N'Họ và tên', bd.Diem AS N'Điểm' FROM dbo.tbl_BANGDIEM AS bd JOIN dbo.tbl_SINHVIEN AS sv ON sv.MaSV = bd.MaSV WHERE bd.MaLop = '{0}'",malopString);
                 SqlDataAdapter sda = new SqlDataAdapter(loadDataQuery, cnn);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
@@ -138,11 +118,11 @@ namespace Demo.User
                     if (dr[2] == null) { continue; }
                     else
                     {
-                        dr[2] = Decrypt256(dr[2].ToString(), sharedKey);
+                        dr[2] = AES.Decrypt256(dr[2].ToString(), sharedKey);
                     }
                 }
                 transcript_dgv.DataSource = dt;
-                cnn.Close();
+                //cnn.Close();
             }
             catch (Exception ex)
             {
@@ -152,33 +132,75 @@ namespace Demo.User
 
         private void transcript_dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
-
-        private void MarkManager_Load(object sender, EventArgs e)
-        {
-            //id_user = Login.id_user;
-            byte[] sharedKey = loadAndGenerateSharedKey();
-            loadDataListClass();
-        }
-
+        //Load bảng điểm và thông tin lớp học mỗi khi chọn lớp học phần dựa theo mã lớp
         private void malop_cb_SelectedIndexChanged(object sender, EventArgs e)
         {
-            byte[] tmp = null;
-            loadDataTranscript(tmp, malop_cb.Text);
+            //kiểm tra xem giáo viên có được xem/sửa điểm lớp được chọn hay không
+            try
+            {
+                cnn.Open();
+                string authenticationCheckQuery = "";
+                if (cv_user == "1") //Nếu user là giáo viên
+                {
+                    authenticationCheckQuery = string.Format("SELECT COUNT(*) FROM dbo.tbl_LOPHP WHERE MaLop = '{0}' AND MaNV = {1}", malop_cb.Text, id_user);
+                }
+                else //Nếu user là giáo vụ
+                {
+                    authenticationCheckQuery = string.Format("SELECT COUNT(*) FROM dbo.tbl_LOPHP AS l JOIN dbo.tbl_USER AS u ON u.MaNV = l.MaNV WHERE l.MaLop = '{0}' AND u.MaKhoa = (SELECT MaKhoa FROM dbo.tbl_USER AS u2 WHERE u2.MaNV = {1} )",malop_cb.Text,id_user);
+                }
+                SqlDataAdapter check_sda = new SqlDataAdapter(authenticationCheckQuery, cnn);
+                DataTable check_dt = new DataTable();
+                check_sda.Fill(check_dt);
+                if (check_dt.Rows[0][0].ToString() != "0")
+                {
+                    //Lấy thông tin lớp học (tên lớp, giáo viên phụ trách).
+                    string loadInformationClass = string.Format("SELECT l.TenLop, l.MaNV, u.TenNV FROM dbo.tbl_LOPHP AS l JOIN dbo.tbl_USER AS u ON u.MaNV = l.MaNV WHERE l.MaLop = '{0}'", malop_cb.Text);
+                    SqlDataAdapter sda = new SqlDataAdapter(loadInformationClass, cnn);
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    tenlop_tb.Text = dt.Rows[0][0].ToString();
+                    magvpt_tb.Text = dt.Rows[0][1].ToString();
+                    tengvpt_tb.Text = dt.Rows[0][2].ToString();
+                    loadDataTranscript(malop_cb.Text);
+                }
+                else
+                {
+                    cnn.Close();
+                    MessageBox.Show("Bạn không có quyền xem điểm lớp này.");
+                }
+            }
+            catch (Exception ex)
+            {
+                cnn.Close();
+                MessageBox.Show(ex.ToString());
+            }
+            cnn.Close();
         }
 
         private void save_btn_Click(object sender, EventArgs e)
         {
             try
             {
-                byte[] sharedKey = loadAndGenerateSharedKey();
+                byte[] sharedKey = null;
+                if (cv_user == "1")
+                {
+                    sharedKey = loadAndGenerateSharedKey(id_user);
+                }
+                else if (cv_user == "2")
+                {
+                    sharedKey = loadAndGenerateSharedKey(magvpt_tb.Text);
+                }
                 cnn.Open();
                 foreach (DataGridViewRow dgvr in transcript_dgv.Rows)
                 {
+                    if (String.IsNullOrEmpty(dgvr.Cells[2].Value.ToString()))
+                    {
+                        dgvr.Cells[2].Value = "";
+                    }
                     try
                     {
-                        string updateMarkQuery = string.Format("UPDATE dbo.tbl_BANGDIEM SET Diem = (SELECT CONVERT(VARBINARY(MAX),'{0}')) WHERE MaSV = '{1}' AND MaLop = '{2}'", Encrypt256(dgvr.Cells[2].Value.ToString(), sharedKey), dgvr.Cells[0].Value, malop_cb.Text);
+                        string updateMarkQuery = string.Format("UPDATE dbo.tbl_BANGDIEM SET Diem = '{0}' WHERE MaSV = '{1}' AND MaLop = '{2}'", AES.Encrypt256(dgvr.Cells[2].Value.ToString(), sharedKey), dgvr.Cells[0].Value, malop_cb.Text);
                         SqlCommand sc = new SqlCommand(updateMarkQuery, cnn);
                         sc.ExecuteNonQuery();
                     }
@@ -194,7 +216,12 @@ namespace Demo.User
             {
                 MessageBox.Show(ex.ToString());
             }
-            
+            cnn.Close();
+        }
+
+        private void cancel_btn_Click(object sender, EventArgs e)
+        {
+            loadDataTranscript(malop_cb.Text);
         }
     }
 }

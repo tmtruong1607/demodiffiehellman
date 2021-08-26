@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Demo.User
@@ -30,12 +31,19 @@ namespace Demo.User
         private void MarkManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ActiveMdiChild != null) { ActiveMdiChild.Close(); }
-                //this.ActiveMdiChild.Close();
+            //this.ActiveMdiChild.Close();
             Form marmag_child = new MarkManager();
+            marmag_child.MdiParent = this;
+            //marmag_child.Left = 0;
+            //marmag_child.Top = 0;
+            //Rectangle recNew = new Rectangle();
+            //recNew = this.ClientRectangle;
+            //recNew.Height -= 4;
+            //recNew.Width -= 4;
+            //marmag_child.Size = recNew.Size;
             marmag_child.Text = "Quản lý điểm";
             marmag_child.FormBorderStyle = FormBorderStyle.None;
             marmag_child.Dock = DockStyle.Fill;
-            marmag_child.MdiParent = this;
             marmag_child.Show();
         }
 

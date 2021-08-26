@@ -106,6 +106,7 @@
             // 
             this.magv_tb.Location = new System.Drawing.Point(113, 47);
             this.magv_tb.Name = "magv_tb";
+            this.magv_tb.ReadOnly = true;
             this.magv_tb.Size = new System.Drawing.Size(118, 20);
             this.magv_tb.TabIndex = 0;
             // 
@@ -161,11 +162,11 @@
             // 
             // insprivkey_lb
             // 
-            this.insprivkey_lb.Location = new System.Drawing.Point(281, 125);
+            this.insprivkey_lb.Location = new System.Drawing.Point(276, 125);
             this.insprivkey_lb.Name = "insprivkey_lb";
-            this.insprivkey_lb.Size = new System.Drawing.Size(57, 32);
+            this.insprivkey_lb.Size = new System.Drawing.Size(62, 32);
             this.insprivkey_lb.TabIndex = 0;
-            this.insprivkey_lb.Text = "Tùy chọn Pubkey";
+            this.insprivkey_lb.Text = "Tùy chọn Private Key";
             // 
             // insprivkey_tb
             // 
@@ -227,7 +228,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Name = "Profile";
-            this.Text = "User";
+            this.Text = "Thông tin cá nhân";
             this.Load += new System.EventHandler(this.Profile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

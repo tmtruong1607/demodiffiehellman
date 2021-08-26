@@ -46,10 +46,10 @@
             this.transcript_dgv.AllowUserToAddRows = false;
             this.transcript_dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.transcript_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.transcript_dgv.Location = new System.Drawing.Point(12, 76);
+            this.transcript_dgv.Location = new System.Drawing.Point(12, 113);
             this.transcript_dgv.Name = "transcript_dgv";
             this.transcript_dgv.RowHeadersVisible = false;
-            this.transcript_dgv.Size = new System.Drawing.Size(438, 278);
+            this.transcript_dgv.Size = new System.Drawing.Size(438, 268);
             this.transcript_dgv.TabIndex = 0;
             this.transcript_dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.transcript_dgv_CellContentClick);
             // 
@@ -57,7 +57,7 @@
             // 
             this.malop_cb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.malop_cb.FormattingEnabled = true;
-            this.malop_cb.Location = new System.Drawing.Point(101, 12);
+            this.malop_cb.Location = new System.Drawing.Point(101, 61);
             this.malop_cb.Name = "malop_cb";
             this.malop_cb.Size = new System.Drawing.Size(121, 21);
             this.malop_cb.TabIndex = 1;
@@ -65,7 +65,7 @@
             // 
             // tenlop_tb
             // 
-            this.tenlop_tb.Location = new System.Drawing.Point(347, 12);
+            this.tenlop_tb.Location = new System.Drawing.Point(347, 61);
             this.tenlop_tb.Name = "tenlop_tb";
             this.tenlop_tb.ReadOnly = true;
             this.tenlop_tb.Size = new System.Drawing.Size(146, 20);
@@ -73,7 +73,7 @@
             // 
             // magvpt_tb
             // 
-            this.magvpt_tb.Location = new System.Drawing.Point(347, 38);
+            this.magvpt_tb.Location = new System.Drawing.Point(347, 87);
             this.magvpt_tb.Name = "magvpt_tb";
             this.magvpt_tb.ReadOnly = true;
             this.magvpt_tb.Size = new System.Drawing.Size(68, 20);
@@ -82,7 +82,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 15);
+            this.label1.Location = new System.Drawing.Point(8, 64);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 13);
             this.label1.TabIndex = 3;
@@ -91,7 +91,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(241, 16);
+            this.label2.Location = new System.Drawing.Point(241, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(91, 13);
             this.label2.TabIndex = 3;
@@ -100,7 +100,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(241, 41);
+            this.label3.Location = new System.Drawing.Point(241, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 13);
             this.label3.TabIndex = 3;
@@ -108,7 +108,7 @@
             // 
             // save_btn
             // 
-            this.save_btn.Location = new System.Drawing.Point(475, 124);
+            this.save_btn.Location = new System.Drawing.Point(475, 151);
             this.save_btn.Name = "save_btn";
             this.save_btn.Size = new System.Drawing.Size(75, 23);
             this.save_btn.TabIndex = 4;
@@ -118,26 +118,26 @@
             // 
             // cancel_btn
             // 
-            this.cancel_btn.Location = new System.Drawing.Point(475, 186);
+            this.cancel_btn.Location = new System.Drawing.Point(475, 213);
             this.cancel_btn.Name = "cancel_btn";
             this.cancel_btn.Size = new System.Drawing.Size(75, 23);
             this.cancel_btn.TabIndex = 4;
             this.cancel_btn.Text = "Hủy";
             this.cancel_btn.UseVisualStyleBackColor = true;
+            this.cancel_btn.Click += new System.EventHandler(this.cancel_btn_Click);
             // 
             // tengvpt_tb
             // 
-            this.tengvpt_tb.Location = new System.Drawing.Point(421, 38);
+            this.tengvpt_tb.Location = new System.Drawing.Point(421, 87);
             this.tengvpt_tb.Name = "tengvpt_tb";
             this.tengvpt_tb.ReadOnly = true;
-            this.tengvpt_tb.Size = new System.Drawing.Size(146, 20);
+            this.tengvpt_tb.Size = new System.Drawing.Size(129, 20);
             this.tengvpt_tb.TabIndex = 2;
             // 
             // MarkManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 366);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(566, 393);
             this.Controls.Add(this.cancel_btn);
             this.Controls.Add(this.save_btn);
             this.Controls.Add(this.label3);

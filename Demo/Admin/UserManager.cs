@@ -70,8 +70,8 @@ namespace Demo
             emptyTextBox();
             writeAllow();
             add_btn.Enabled = false;
-            save_btn.Enabled = true;
-            cancel_btn.Enabled = true;
+            save_btn.Show();
+            cancel_btn.Show();
         }
 
         private void save_btn_Click(object sender, EventArgs e)
@@ -87,8 +87,8 @@ namespace Demo
                 MessageBox.Show("Đã thêm.");
                 cnn.Close();
                 add_btn.Enabled = true;
-                save_btn.Enabled = false;
-                cancel_btn.Enabled = false;
+                save_btn.Hide();
+                cancel_btn.Hide();
                 loadData();
             }
             catch (Exception ex)
@@ -102,8 +102,8 @@ namespace Demo
             emptyTextBox();
             readOnly();
             add_btn.Enabled = true;
-            save_btn.Enabled = false;
-            cancel_btn.Enabled = false;
+            save_btn.Hide();
+            cancel_btn.Hide();
         }
 
         private void del_btn_Click(object sender, EventArgs e)
