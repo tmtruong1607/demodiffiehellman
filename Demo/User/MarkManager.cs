@@ -105,8 +105,7 @@ namespace Demo.User
                 {
                     sharedKey = loadAndGenerateSharedKey(magvpt_tb.Text);
                 }
-                
-                //cnn.Open();
+
                 string loadDataQuery = String.Format("SELECT bd.MaSV AS N'Mã sinh viên', sv.TenSV AS N'Họ và tên', bd.Diem AS N'Điểm' FROM dbo.tbl_BANGDIEM AS bd JOIN dbo.tbl_SINHVIEN AS sv ON sv.MaSV = bd.MaSV WHERE bd.MaLop = '{0}'",malopString);
                 SqlDataAdapter sda = new SqlDataAdapter(loadDataQuery, cnn);
                 DataTable dt = new DataTable();
@@ -122,7 +121,6 @@ namespace Demo.User
                     }
                 }
                 transcript_dgv.DataSource = dt;
-                //cnn.Close();
             }
             catch (Exception ex)
             {
@@ -165,8 +163,7 @@ namespace Demo.User
                     loadDataTranscript(malop_cb.Text);
                 }
                 else
-                {
-                    cnn.Close();
+                { 
                     MessageBox.Show("Bạn không có quyền xem điểm lớp này.");
                 }
             }

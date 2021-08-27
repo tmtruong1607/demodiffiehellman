@@ -108,7 +108,7 @@ namespace Demo.User
             byte[] tmp = Encoding.UTF8.GetBytes(privk);
             return Curve25519.ClampPrivateKey(tmp);
         }
-        public static byte[] publicKey; //pubkey
+        public static byte[] publicKey;
         public static byte[] privateKey;
         public void privateKeyUpdate()
         {
@@ -139,7 +139,6 @@ namespace Demo.User
         {
             try
             {
-                //if (cnn.State.ToString() == "Open") { cnn.Close(); }
                 cnn.Open();
                 //Query lấy mã khoa
                 string getDataQuery = string.Format("SELECT MaKhoa FROM tbl_KHOA WHERE TenKhoa = N'{0}'",khoa_cb.Text);

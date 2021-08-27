@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Encryption\AES.cs" />
     <Compile Include="Encryption\Curve25519.cs" />
-    <Compile Include="Encryption\DiffieHellman.cs" />
     <Compile Include="Encryption\MD5Encryption.cs" />
     <Compile Include="DBConnection\GetConnection.cs" />
     <Compile Include="Login.cs">

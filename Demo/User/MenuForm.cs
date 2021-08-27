@@ -14,12 +14,6 @@ namespace Demo.User
         private void MenuForm_Load(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            //Form marmag_child = new MarkManager();
-            //marmag_child.Text = "Quản lý điểm";
-            //marmag_child.FormBorderStyle = FormBorderStyle.None;
-            //marmag_child.Dock = DockStyle.Fill;
-            //marmag_child.MdiParent = this;
-            //marmag_child.Show();
         }
         private void LogoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -31,16 +25,8 @@ namespace Demo.User
         private void MarkManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ActiveMdiChild != null) { ActiveMdiChild.Close(); }
-            //this.ActiveMdiChild.Close();
             Form marmag_child = new MarkManager();
             marmag_child.MdiParent = this;
-            //marmag_child.Left = 0;
-            //marmag_child.Top = 0;
-            //Rectangle recNew = new Rectangle();
-            //recNew = this.ClientRectangle;
-            //recNew.Height -= 4;
-            //recNew.Width -= 4;
-            //marmag_child.Size = recNew.Size;
             marmag_child.Text = "Quản lý điểm";
             marmag_child.FormBorderStyle = FormBorderStyle.None;
             marmag_child.Dock = DockStyle.Fill;
@@ -49,7 +35,6 @@ namespace Demo.User
 
         private void ProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (this.MdiChildren.Count() == 0)
             if (ActiveMdiChild != null) { ActiveMdiChild.Close(); }
             Form prof_child = new Profile();
             prof_child.Text = "Thông tin cá nhân";
@@ -62,7 +47,6 @@ namespace Demo.User
         private void MarkManager2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ActiveMdiChild != null) { ActiveMdiChild.Close(); }
-            //this.ActiveMdiChild.Close();
             Form marmag_child = new MarkManager();
             marmag_child.Text = "Quản lý điểm";
             marmag_child.FormBorderStyle = FormBorderStyle.None;
