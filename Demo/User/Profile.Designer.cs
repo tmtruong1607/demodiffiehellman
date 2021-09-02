@@ -41,13 +41,11 @@
             this.khoa_cb = new System.Windows.Forms.ComboBox();
             this.save_btn = new System.Windows.Forms.Button();
             this.cancel_btn = new System.Windows.Forms.Button();
-            this.insprivkey_lb = new System.Windows.Forms.Label();
-            this.insprivkey_tb = new System.Windows.Forms.TextBox();
+            this.optionkey_lb = new System.Windows.Forms.Label();
+            this.optionkey_tb = new System.Windows.Forms.TextBox();
             this.cv_cb = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.makhoa_tb = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.privkey_tb = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -162,21 +160,21 @@
             this.cancel_btn.Text = "Hủy bỏ";
             this.cancel_btn.UseVisualStyleBackColor = true;
             // 
-            // insprivkey_lb
+            // optionkey_lb
             // 
-            this.insprivkey_lb.Location = new System.Drawing.Point(276, 125);
-            this.insprivkey_lb.Name = "insprivkey_lb";
-            this.insprivkey_lb.Size = new System.Drawing.Size(62, 32);
-            this.insprivkey_lb.TabIndex = 0;
-            this.insprivkey_lb.Text = "Tùy chọn Private Key";
+            this.optionkey_lb.Location = new System.Drawing.Point(276, 125);
+            this.optionkey_lb.Name = "optionkey_lb";
+            this.optionkey_lb.Size = new System.Drawing.Size(62, 32);
+            this.optionkey_lb.TabIndex = 0;
+            this.optionkey_lb.Text = "Tùy chọn Private Key";
             // 
-            // insprivkey_tb
+            // optionkey_tb
             // 
-            this.insprivkey_tb.Location = new System.Drawing.Point(334, 127);
-            this.insprivkey_tb.Name = "insprivkey_tb";
-            this.insprivkey_tb.Size = new System.Drawing.Size(157, 20);
-            this.insprivkey_tb.TabIndex = 6;
-            this.insprivkey_tb.TextChanged += new System.EventHandler(this.insprivkey_tb_TextChanged);
+            this.optionkey_tb.Location = new System.Drawing.Point(334, 127);
+            this.optionkey_tb.Name = "optionkey_tb";
+            this.optionkey_tb.Size = new System.Drawing.Size(157, 20);
+            this.optionkey_tb.TabIndex = 6;
+            this.optionkey_tb.TextChanged += new System.EventHandler(this.insprivkey_tb_TextChanged);
             // 
             // cv_cb
             // 
@@ -205,24 +203,6 @@
             this.makhoa_tb.Size = new System.Drawing.Size(155, 20);
             this.makhoa_tb.TabIndex = 10;
             // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(276, 156);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(62, 32);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Private Key";
-            // 
-            // privkey_tb
-            // 
-            this.privkey_tb.Location = new System.Drawing.Point(334, 153);
-            this.privkey_tb.Multiline = true;
-            this.privkey_tb.Name = "privkey_tb";
-            this.privkey_tb.ReadOnly = true;
-            this.privkey_tb.Size = new System.Drawing.Size(157, 46);
-            this.privkey_tb.TabIndex = 6;
-            this.privkey_tb.TextChanged += new System.EventHandler(this.insprivkey_tb_TextChanged);
-            // 
             // Profile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,12 +217,10 @@
             this.Controls.Add(this.sdt_tb);
             this.Controls.Add(this.email_tb);
             this.Controls.Add(this.ten_tb);
-            this.Controls.Add(this.privkey_tb);
-            this.Controls.Add(this.insprivkey_tb);
+            this.Controls.Add(this.optionkey_tb);
             this.Controls.Add(this.magv_tb);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.insprivkey_lb);
+            this.Controls.Add(this.optionkey_lb);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -272,12 +250,10 @@
         private System.Windows.Forms.ComboBox khoa_cb;
         private System.Windows.Forms.Button save_btn;
         private System.Windows.Forms.Button cancel_btn;
-        private System.Windows.Forms.Label insprivkey_lb;
-        private System.Windows.Forms.TextBox insprivkey_tb;
+        private System.Windows.Forms.Label optionkey_lb;
+        private System.Windows.Forms.TextBox optionkey_tb;
         private System.Windows.Forms.ComboBox cv_cb;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox makhoa_tb;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox privkey_tb;
     }
 }

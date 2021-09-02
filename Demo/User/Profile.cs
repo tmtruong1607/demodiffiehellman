@@ -12,7 +12,12 @@ namespace Demo.User
 {
     public partial class Profile : Form
     {
-        string id_user = Login.id_user;
+        string id_user = Login.id_user; //Lấy id user sau khi đăng nhập
+        public SqlConnection cnn = GetConnection.getConnection();
+        public static byte[] publicKey;
+        public static byte[] privateKey;
+        bool check = false; //đặt biến kiểm tra xem user đã có thông tin (khoa, chức vụ, cặp key) chưa
+
         public Profile()
         {
             InitializeComponent();
@@ -26,7 +31,32 @@ namespace Demo.User
             byte[] bytes = Encoding.Default.GetBytes(str);
             str = Encoding.UTF8.GetString(bytes);
         }
-        public SqlConnection cnn = GetConnection.getConnection();
+        byte[] generatePrivKey(string privk) //tạo private key
+        {
+            byte[] tmp = Encoding.UTF8.GetBytes(privk);
+            return Curve25519.ClampPrivateKey(tmp);
+        }
+
+        public void privateKeyUpdate()
+        {
+            //Kiểm tra xem chức vụ là gì để xây dựng pubkey tương ứng.
+            if ((CVenum)cv_cb.SelectedValue == CVenum.GiaoVu)
+            {
+                optionkey_tb.Hide();
+                optionkey_lb.Hide();
+                string privateKeyString = makhoa_tb.Text + khoa_cb.Text;
+                privateKey = generatePrivKey(privateKeyString);
+                publicKey = Curve25519.GetPublicKey(privateKey);
+            }
+            else
+            {
+                optionkey_tb.Show();
+                optionkey_lb.Show();
+                string privateKeyString = optionkey_tb.Text + magv_tb.Text;
+                privateKey = generatePrivKey(privateKeyString);
+                publicKey = Curve25519.GetPublicKey(privateKey);
+            }
+        }
         public void loadData()
         {
             try
@@ -34,7 +64,7 @@ namespace Demo.User
                 cnn.Open();
                 string tmp = cnn.ConnectionString;
                 //Query để load thông tin cá nhân user
-                string loadDataQuery = string.Format("SELECT u.MaNV, u.TenNV, u.Email, u.SDT, u.ChucVu, k.TenKhoa, u.MaKhoa, CONVERT(VARCHAR(MAX),u.PrivKey) FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id_user);
+                string loadDataQuery = string.Format("SELECT u.MaNV, u.TenNV, u.Email, u.SDT, u.ChucVu, k.TenKhoa, u.MaKhoa, CONVERT(VARCHAR(MAX),u.OptionKey) FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id_user);
                 SqlDataAdapter sda = new SqlDataAdapter(loadDataQuery, cnn);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
@@ -76,11 +106,15 @@ namespace Demo.User
                 khoa_cb.Text = dt.Rows[0][5].ToString();
                 if (dt.Rows[0][6].ToString() != "") { makhoa_tb.ReadOnly = true; }
                 makhoa_tb.Text = dt.Rows[0][6].ToString();
-                privkey_tb.Text = dt.Rows[0][7].ToString(); //Nếu đã có private key thì sẽ ẩn phần nhập private key, tránh trường hợp thay đổi private key dẫn đến lỗi khi xem điểm đã được mã hóa bằng private key cũ.
-                if (privkey_tb.Text != "")
+                optionkey_tb.Text = dt.Rows[0][7].ToString(); //Nếu đã có private key thì sẽ ẩn phần nhập private key, tránh trường hợp thay đổi private key dẫn đến lỗi khi xem điểm đã được mã hóa bằng private key cũ.
+                if (optionkey_tb.Text != "")
                 {
-                    insprivkey_tb.Hide();
-                    insprivkey_lb.Hide();
+                    check = true;
+                    optionkey_tb.ReadOnly = true;
+                }
+                else
+                {
+                    check = false;
                 }
             }
             catch (Exception ex)
@@ -110,9 +144,9 @@ namespace Demo.User
                     //Query để lưu lại thông tin user
                     string updateQuery = "";
                     //Kiểm tra xem user đã có private key chưa (tức là đã khai báo chức vụ, mã khoa), nếu đã có thì chỉ update thông tin liên hệ cá nhân, các thông tin có thể dẫn đến việc thay đổi private key sẽ không được update hay sửa đổi.
-                    if (privkey_tb.Text == "")
+                    if (check == false)
                     {
-                        updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= (SELECT CONVERT(VARBINARY(MAX),'{6}')), PrivKey= (SELECT CONVERT(VARBINARY(MAX),'{7}')) WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedValue, makhoa_tb.Text, Convert.ToBase64String(publicKey), Convert.ToBase64String(privateKey));
+                        updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= (SELECT CONVERT(VARBINARY(MAX),'{6}')), PrivKey= (SELECT CONVERT(VARBINARY(MAX),'{7}')), OptionKey = (SELECT CONVERT(VARBINARY(MAX),'{8}')) WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedValue, makhoa_tb.Text, Convert.ToBase64String(publicKey), Convert.ToBase64String(privateKey), optionkey_tb.Text);
                     }
                     else
                     {
@@ -123,6 +157,7 @@ namespace Demo.User
                     sc.ExecuteNonQuery();
                     MessageBox.Show("Đã lưu!");
                     cnn.Close();
+                    loadData();
                 }
                 catch (Exception ex)
                 {
@@ -131,33 +166,7 @@ namespace Demo.User
                 }
             }
         }
-        byte[] generatePrivKey(string privk)
-        {
-            byte[] tmp = Encoding.UTF8.GetBytes(privk);
-            return Curve25519.ClampPrivateKey(tmp);
-        }
-        public static byte[] publicKey;
-        public static byte[] privateKey;
-        public void privateKeyUpdate()
-        {
-            //Kiểm tra xem chức vụ là gì để xây dựng pubkey tương ứng.
-            if ((CVenum)cv_cb.SelectedValue == CVenum.GiaoVu)
-            {
-                insprivkey_tb.Hide();
-                insprivkey_lb.Hide();
-                string privateKeyString = makhoa_tb.Text + khoa_cb.Text;
-                privateKey = generatePrivKey(privateKeyString);
-                publicKey = Curve25519.GetPublicKey(privateKey);
-            }
-            else
-            {
-                insprivkey_tb.Show();
-                insprivkey_lb.Show();
-                string privateKeyString = insprivkey_tb.Text + magv_tb.Text;
-                privateKey = generatePrivKey(privateKeyString);
-                publicKey = Curve25519.GetPublicKey(privateKey);
-            }
-        }
+        
         private void cv_cb_SelectedIndexChanged(object sender, EventArgs e)
         {
             privateKeyUpdate();

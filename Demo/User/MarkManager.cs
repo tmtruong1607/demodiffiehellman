@@ -12,9 +12,9 @@ namespace Demo.User
     public partial class MarkManager : Form
     {
         public SqlConnection cnn = GetConnection.getConnection();
-        //public byte[] sharedKey = null;
         string id_user = Login.id_user;
         string cv_user = Login.cv_user;
+
         public MarkManager()
         {
             InitializeComponent();
@@ -25,10 +25,10 @@ namespace Demo.User
         }
         private void MarkManager_Load(object sender, EventArgs e)
         {
-            //id_user = Login.id_user;
             allowEdit();
             loadDataListClass();
         }
+
         //Kiểm tra xem là giáo vụ hay giáo viên để cấp quyền sửa điểm
         private void allowEdit()
         {
@@ -166,19 +166,20 @@ namespace Demo.User
                 { 
                     MessageBox.Show("Bạn không có quyền xem điểm lớp này.");
                 }
+                cnn.Close();
             }
             catch (Exception ex)
             {
                 cnn.Close();
                 MessageBox.Show(ex.ToString());
             }
-            cnn.Close();
         }
 
         private void save_btn_Click(object sender, EventArgs e)
         {
             try
             {
+                //generate key cho user
                 byte[] sharedKey = null;
                 if (cv_user == "1")
                 {
@@ -188,6 +189,7 @@ namespace Demo.User
                 {
                     sharedKey = loadAndGenerateSharedKey(magvpt_tb.Text);
                 }
+                //mã hóa điểm và lưu vào database
                 cnn.Open();
                 foreach (DataGridViewRow dgvr in transcript_dgv.Rows)
                 {
