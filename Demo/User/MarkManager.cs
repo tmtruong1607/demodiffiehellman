@@ -66,7 +66,7 @@ namespace Demo.User
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Có lỗi khi tạo key.");
             }
 
             return sharedKey;
@@ -88,7 +88,7 @@ namespace Demo.User
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Có lỗi khi tải danh sách lớp.");
             }
         }
         //Lấy bảng điểm theo lớp học phần
@@ -124,7 +124,7 @@ namespace Demo.User
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Có lỗi tải danh sách điểm.");
             }
         }
 
@@ -208,12 +208,13 @@ namespace Demo.User
 
                 }
                 cnn.Close();
+                MessageBox.Show("Đã lưu.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Lưu điểm thất bại, có lỗi.");
+                cnn.Close();
             }
-            cnn.Close();
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)

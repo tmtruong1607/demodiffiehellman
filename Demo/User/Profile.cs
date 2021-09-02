@@ -34,7 +34,7 @@ namespace Demo.User
                 cnn.Open();
                 string tmp = cnn.ConnectionString;
                 //Query để load thông tin cá nhân user
-                string loadDataQuery = string.Format("SELECT u.MaNV, u.TenNV, u.Email, u.SDT, u.ChucVu, k.TenKhoa, u.MaKhoa FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id_user);
+                string loadDataQuery = string.Format("SELECT u.MaNV, u.TenNV, u.Email, u.SDT, u.ChucVu, k.TenKhoa, u.MaKhoa, CONVERT(VARCHAR(MAX),u.PrivKey) FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa WHERE u.MaNV = '{0}'", id_user);
                 SqlDataAdapter sda = new SqlDataAdapter(loadDataQuery, cnn);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
@@ -62,14 +62,31 @@ namespace Demo.User
                 ten_tb.Text = dt.Rows[0][1].ToString();
                 email_tb.Text = dt.Rows[0][2].ToString();
                 sdt_tb.Text = dt.Rows[0][3].ToString();
-                int ind = (int)dt.Rows[0][4]; //Lấy giá trị của chức vụ (1,2)
+                int ind;
+                //Lấy giá trị của chức vụ (1,2)
+                if (dt.Rows[0][4].ToString() == "") { ind = 1; }
+                else
+                {
+                    ind = (int)dt.Rows[0][4];
+                    cv_cb.Enabled = false;
+                } 
                 cv_cb.SelectedIndex = ind-1; //Gán giá trị của chức vụ vào combobox để làm giá trị mặc định khi load.
+                //Kiểm tra xem user đã có chức vụ, khoa chưa, nếu có rồi thì sẽ ẩn, không cho user thay đổi giá trị đó, tránh trường hợp private key bị thay đổi dẫn đến lỗi khi xem điểm đã mã hóa bằng private key cũ. User sẽ chỉ được cập nhật thông tin chức vụ, mã khoa một lần.
+                if (dt.Rows[0][5].ToString() != "") { khoa_cb.Enabled = false; }
                 khoa_cb.Text = dt.Rows[0][5].ToString();
+                if (dt.Rows[0][6].ToString() != "") { makhoa_tb.ReadOnly = true; }
                 makhoa_tb.Text = dt.Rows[0][6].ToString();
+                privkey_tb.Text = dt.Rows[0][7].ToString(); //Nếu đã có private key thì sẽ ẩn phần nhập private key, tránh trường hợp thay đổi private key dẫn đến lỗi khi xem điểm đã được mã hóa bằng private key cũ.
+                if (privkey_tb.Text != "")
+                {
+                    insprivkey_tb.Hide();
+                    insprivkey_lb.Hide();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Có lỗi khi tải thông tin.");
+                cnn.Close();
             }
             
         }
@@ -91,7 +108,17 @@ namespace Demo.User
                 {
                     cnn.Open();
                     //Query để lưu lại thông tin user
-                    string updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= (SELECT CONVERT(VARBINARY(MAX),'{6}')), PrivKey= (SELECT CONVERT(VARBINARY(MAX),'{7}')) WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedValue, makhoa_tb.Text, Convert.ToBase64String(publicKey), Convert.ToBase64String(privateKey));
+                    string updateQuery = "";
+                    //Kiểm tra xem user đã có private key chưa (tức là đã khai báo chức vụ, mã khoa), nếu đã có thì chỉ update thông tin liên hệ cá nhân, các thông tin có thể dẫn đến việc thay đổi private key sẽ không được update hay sửa đổi.
+                    if (privkey_tb.Text == "")
+                    {
+                        updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}',ChucVu={4},MaKhoa = '{5}', PubKey= (SELECT CONVERT(VARBINARY(MAX),'{6}')), PrivKey= (SELECT CONVERT(VARBINARY(MAX),'{7}')) WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text, (int)(CVenum)cv_cb.SelectedValue, makhoa_tb.Text, Convert.ToBase64String(publicKey), Convert.ToBase64String(privateKey));
+                    }
+                    else
+                    {
+                        updateQuery = string.Format("UPDATE dbo.tbl_USER SET TenNV=N'{1}',Email='{2}',SDT='{3}' WHERE MaNV = '{0}'", magv_tb.Text, ten_tb.Text, email_tb.Text, sdt_tb.Text);
+                    }
+                        
                     SqlCommand sc = new SqlCommand(updateQuery, cnn);
                     sc.ExecuteNonQuery();
                     MessageBox.Show("Đã lưu!");
@@ -99,7 +126,8 @@ namespace Demo.User
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.ToString());
+                    MessageBox.Show("Lưu thất bại, có lỗi!");
+                    cnn.Close();
                 }
             }
         }
@@ -152,6 +180,7 @@ namespace Demo.User
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+                cnn.Close();
             }
         }
 

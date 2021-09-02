@@ -39,8 +39,6 @@
             this.del_btn = new System.Windows.Forms.Button();
             this.save_btn = new System.Windows.Forms.Button();
             this.cancel_btn = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.chucvu_cb = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.users_dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,14 +95,14 @@
             this.id_tb.Location = new System.Drawing.Point(161, 58);
             this.id_tb.Name = "id_tb";
             this.id_tb.Size = new System.Drawing.Size(100, 20);
-            this.id_tb.TabIndex = 2;
+            this.id_tb.TabIndex = 0;
             // 
             // pw_tb
             // 
             this.pw_tb.Location = new System.Drawing.Point(161, 84);
             this.pw_tb.Name = "pw_tb";
             this.pw_tb.Size = new System.Drawing.Size(100, 20);
-            this.pw_tb.TabIndex = 2;
+            this.pw_tb.TabIndex = 1;
             // 
             // add_btn
             // 
@@ -148,39 +146,17 @@
             this.cancel_btn.UseVisualStyleBackColor = true;
             this.cancel_btn.Click += new System.EventHandler(this.cancel_btn_Click);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(65, 113);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Chức vụ";
-            // 
-            // chucvu_cb
-            // 
-            this.chucvu_cb.FormattingEnabled = true;
-            this.chucvu_cb.Items.AddRange(new object[] {
-            "Giáo viên",
-            "Giáo vụ"});
-            this.chucvu_cb.Location = new System.Drawing.Point(161, 110);
-            this.chucvu_cb.Name = "chucvu_cb";
-            this.chucvu_cb.Size = new System.Drawing.Size(100, 21);
-            this.chucvu_cb.TabIndex = 4;
-            // 
             // UserManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 352);
-            this.Controls.Add(this.chucvu_cb);
             this.Controls.Add(this.del_btn);
             this.Controls.Add(this.cancel_btn);
             this.Controls.Add(this.save_btn);
             this.Controls.Add(this.add_btn);
             this.Controls.Add(this.pw_tb);
             this.Controls.Add(this.id_tb);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.manv_tb);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -208,7 +184,5 @@
         private System.Windows.Forms.Button del_btn;
         private System.Windows.Forms.Button save_btn;
         private System.Windows.Forms.Button cancel_btn;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox chucvu_cb;
     }
 }

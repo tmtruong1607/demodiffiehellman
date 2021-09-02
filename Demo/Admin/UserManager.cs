@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Security.Cryptography;
 using Demo.Encryption;
 using Demo.DBConnection;
+using Demo.User;
+
 
 namespace Demo
 {
@@ -19,19 +21,16 @@ namespace Demo
         {
             id_tb.ReadOnly = true;
             pw_tb.ReadOnly = true;
-            chucvu_cb.Enabled = false;
         }
         public void writeAllow()
         {
             id_tb.ReadOnly = false;
             pw_tb.ReadOnly = false;
-            chucvu_cb.Enabled = true;
         }
         public void emptyTextBox()
         {
             id_tb.Text = null;
             pw_tb.Text = null;
-            chucvu_cb.Text = null;
         }
         //public SqlConnection openConnection()
         //{
@@ -43,11 +42,32 @@ namespace Demo
         {
             cnn.Open();
             string tmp = cnn.ConnectionString;
-            string loadDataQuery = "SELECT u.MaNV AS N'Mã GV', u.TenDN AS N'Tên đăng nhập' , u.TenNV AS N'Họ và tên', u.ChucVu AS N'Chức vụ', k.TenKhoa AS N'Tên khoa' FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa";
+            string loadDataQuery = "SELECT u.MaNV AS N'Mã GV', u.TenDN AS N'Tên đăng nhập' , u.TenNV AS N'Họ và tên', convert(varchar(1),u.ChucVu) AS N'Chức vụ', k.TenKhoa AS N'Tên khoa' FROM dbo.tbl_USER AS u LEFT JOIN dbo.tbl_KHOA AS k ON k.MaKhoa = u.MaKhoa";
             SqlDataAdapter sda = new SqlDataAdapter(loadDataQuery, cnn);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             users_dgv.DataSource = dt;
+            foreach  (DataRow dr in dt.Rows)
+            {
+                if (dr[3].ToString() == "")
+                {
+                    continue;
+                }
+                else
+                {
+                    int i = int.Parse(dr[3].ToString());
+                    if (i==0)
+                    {
+                        dr[3] = "Administrator";
+                    }
+                    else
+                    {
+                        var etmp = (CVenum)(i);
+                        dr[3] = etmp.GetEnumDescription();
+                    }
+                    
+                }
+            }
             cnn.Close();
         }
 
@@ -70,8 +90,9 @@ namespace Demo
             emptyTextBox();
             writeAllow();
             add_btn.Enabled = false;
-            save_btn.Show();
-            cancel_btn.Show();
+            del_btn.Enabled = false;
+            save_btn.Enabled = true;
+            cancel_btn.Enabled = true;
         }
 
         private void save_btn_Click(object sender, EventArgs e)
@@ -87,8 +108,9 @@ namespace Demo
                 MessageBox.Show("Đã thêm.");
                 cnn.Close();
                 add_btn.Enabled = true;
-                save_btn.Hide();
-                cancel_btn.Hide();
+                del_btn.Enabled = true;
+                save_btn.Enabled = false;
+                cancel_btn.Enabled = false;
                 loadData();
             }
             catch (Exception ex)
