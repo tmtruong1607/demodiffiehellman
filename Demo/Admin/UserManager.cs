@@ -162,6 +162,13 @@ namespace Demo
             }
 
         }
+
+        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }
  
