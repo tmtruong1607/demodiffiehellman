@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using Demo.Encryption;
 using Demo.DBConnection;
 using Demo.User;
-
+using System.Text.RegularExpressions;
 
 namespace Demo
 {
@@ -97,26 +97,35 @@ namespace Demo
 
         private void save_btn_Click(object sender, EventArgs e)
         {
-            MD5 md5Hash = MD5.Create();
-            MD5Encryption md5e = new MD5Encryption();
-            try
+            bool validatePasswordResult = validatePassword(pw_tb.Text);
+            if (validatePasswordResult == true)
             {
-                cnn.Open();
-                string addQuery = string.Format("INSERT INTO tbl_USER(TenDN, MatKhau) VALUES('{0}',CONVERT(VARBINARY(MAX),'{1}',1))",id_tb.Text, md5e.GetMd5Hash(md5Hash,pw_tb.Text));
-                SqlCommand sc = new SqlCommand(addQuery, cnn);
-                sc.ExecuteNonQuery();
-                MessageBox.Show("Đã thêm.");
-                cnn.Close();
-                add_btn.Enabled = true;
-                del_btn.Enabled = true;
-                save_btn.Enabled = false;
-                cancel_btn.Enabled = false;
-                loadData();
+                MD5 md5Hash = MD5.Create();
+                MD5Encryption md5e = new MD5Encryption();
+                try
+                {
+                    cnn.Open();
+                    string addQuery = string.Format("INSERT INTO tbl_USER(TenDN, MatKhau) VALUES('{0}',CONVERT(VARBINARY(MAX),'{1}',1))", id_tb.Text, md5e.GetMd5Hash(md5Hash, pw_tb.Text));
+                    SqlCommand sc = new SqlCommand(addQuery, cnn);
+                    sc.ExecuteNonQuery();
+                    MessageBox.Show("Đã thêm.");
+                    cnn.Close();
+                    add_btn.Enabled = true;
+                    del_btn.Enabled = true;
+                    save_btn.Enabled = false;
+                    cancel_btn.Enabled = false;
+                    loadData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Mật khẩu phải bao gồm ký tự thường,in hoa, chữ số, ký tự đặc biệt và độ dài lớn hơn 12.");
             }
+            
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)
@@ -168,6 +177,44 @@ namespace Demo
             Form login = new Login();
             login.Show();
             this.Close();
+        }
+        static bool validatePassword(string password)
+        {
+            var input = password;
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                throw new Exception("Password should not be empty");
+            }
+            var hasNumber = new Regex(@"[0-9]+");
+            var hasUpperChar = new Regex(@"[A-Z]+");
+            var hasMiniMaxChars = new Regex(@".{12,}");
+            var hasLowerChar = new Regex(@"[a-z]+");
+            var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+            if (!hasLowerChar.IsMatch(input))
+            {
+                return false;
+            }
+            else if (!hasUpperChar.IsMatch(input))
+            {
+                return false;
+            }
+            else if (!hasMiniMaxChars.IsMatch(input))
+            {
+                return false;
+            }
+            else if (!hasNumber.IsMatch(input))
+            {
+                return false;
+            }
+
+            else if (!hasSymbols.IsMatch(input))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
