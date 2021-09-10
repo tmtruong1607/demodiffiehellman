@@ -11,4 +11,3 @@ C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.csproj.GenerateResource.cac
 C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.csproj.CoreCompileInputs.cache
 C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.exe
 C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.pdb
-C:\Users\tmtru\source\repos\Demo\Demo\obj\Debug\Demo.csprojAssemblyReference.cache

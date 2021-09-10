@@ -117,7 +117,7 @@ namespace Demo.User
                     check = false;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Có lỗi khi tải thông tin.");
                 cnn.Close();
@@ -159,7 +159,7 @@ namespace Demo.User
                     cnn.Close();
                     loadData();
                 }
-                catch (Exception ex)
+                catch
                 {
                     MessageBox.Show("Lưu thất bại, có lỗi!");
                     cnn.Close();

@@ -64,7 +64,7 @@ namespace Demo.User
                 sharedKey = Curve25519.GetSharedSecret(Convert.FromBase64String(dt1.Rows[0][0].ToString()), Convert.FromBase64String(dt2.Rows[0][1].ToString()));
                 //cnn.Close();
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Có lỗi khi tạo key.");
             }
@@ -86,7 +86,7 @@ namespace Demo.User
                 }
                 cnn.Close();
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Có lỗi khi tải danh sách lớp.");
             }
@@ -122,7 +122,7 @@ namespace Demo.User
                 }
                 transcript_dgv.DataSource = dt;
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Có lỗi tải danh sách điểm.");
             }
@@ -212,7 +212,7 @@ namespace Demo.User
                 cnn.Close();
                 MessageBox.Show("Đã lưu.");
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Lưu điểm thất bại, có lỗi.");
                 cnn.Close();
