@@ -1,5 +1,5 @@
 Data mẫu:
-id: admin, password: abc123 - Tài khoản admin, dùng để quản lý users.
+id: admin, password: Abcdef123456! - Tài khoản admin, dùng để quản lý users.
 
 
 id: giaovien1 - Giáo viên thuộc khoa CNTT.
